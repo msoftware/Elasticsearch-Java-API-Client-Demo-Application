@@ -1,0 +1,35 @@
+
+curl -i -X POST \
+   -H "Content-Type:application/json" \
+   -d \
+'{
+  "id": 1,
+  "name": "Product 1",
+  "price": 10,
+  "description": "Test Product 1",
+  "stocks": 10,
+  "createdAt": "2022-10-19T18:25:43.000Z",
+  "updatedAt": "2022-10-19T18:25:43.000Z"
+}' \
+ 'http://127.0.0.1:8888/api/product/'
+
+
+curl -i -X POST \
+   -H "Content-Type:application/json" \
+   -d \
+'{
+  "id": 2,
+  "name": "Product 2",
+  "price": 20,
+  "description": "Test Product 2",
+  "stocks": 20
+}' \
+ 'http://127.0.0.1:8888/api/product/'
+
+
+# Get Product 1
+curl -i -X GET 'http://127.0.0.1:8888/api/product/1'
+
+######################################################
+# Delete index (elasticsearch endpoint)
+curl -X DELETE "localhost:9200/product?pretty"
