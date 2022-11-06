@@ -5,3 +5,5 @@ The High Level REST Client is deprecated in favour of the Java API Client.
 
 https://www.elastic.co/guide/en/elasticsearch/client/java-api-client/7.17/index.html
 Elasticsearch Java API Client
+
+[Spring Boot Elasticsearch Java API Client Demo Application](https://www.jentsch.io/spring-boot-elasticsearch-java-api-client-demo-application/)
