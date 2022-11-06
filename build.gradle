@@ -13,8 +13,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web:2.7.4'
     implementation 'org.springframework.boot:spring-boot-devtools:2.7.4'
 
-    implementation 'co.elastic.clients:elasticsearch-java:7.17.5'
+    implementation 'co.elastic.clients:elasticsearch-java:8.5.0'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.3'
+
     implementation 'jakarta.json:jakarta.json-api:2.0.1'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test:2.7.4'

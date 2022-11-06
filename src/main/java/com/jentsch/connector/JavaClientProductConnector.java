@@ -27,14 +27,14 @@ public class JavaClientProductConnector {
     private String index;
 
     @Autowired
-    private ElasticsearchClient elasticsearchClient;
+    private ElasticsearchClient client;
 
     public Result saveProduct(Product product)
             throws IOException
     {
         IndexRequest<Product> request = IndexRequest.of(i->
                 i.index(index).id(String.valueOf(product.getId())).document(product));
-        IndexResponse response = elasticsearchClient.index(request);
+        IndexResponse response = client.index(request);
         Result result = response.result();
         return result;
     }
@@ -50,14 +50,14 @@ public class JavaClientProductConnector {
                                         .id(String.valueOf(product.getId()))
                                         .document(product)))
         );
-        BulkResponse bulkResponse = elasticsearchClient.bulk(builder.build());
+        BulkResponse bulkResponse = client.bulk(builder.build());
         return !bulkResponse.errors();
     }
 
     public Product fetchProductById(Long id)
             throws RecordNotFoundException, IOException
     {
-        GetResponse<Product> response = elasticsearchClient
+        GetResponse<Product> response = client
                 .get(req-> req.index(index).id(String.valueOf(id)),Product.class);
         if(!response.found()) {
             throw new RecordNotFoundException("Product with ID" + id + " not found!");
@@ -68,11 +68,11 @@ public class JavaClientProductConnector {
     public List<Product> fetchProducts(Product product)
             throws IOException
     {
-        SearchResponse<Product> response = elasticsearchClient.search(s -> s
+        SearchResponse<Product> response = client.search(s -> s
                         .index(index)
                         .query(q -> q.match(t -> getQuery(t, product))), Product.class);
 
-        TotalHits total = response.hits().total();
+        // TotalHits total = response.hits().total();
         // boolean isExactResult = total.relation() == TotalHitsRelation.Eq;
         List<Hit<Product>> hits = response.hits().hits();
         List<Product> products = new ArrayList<>();
@@ -87,7 +87,7 @@ public class JavaClientProductConnector {
             throws IOException
     {
         DeleteRequest request = DeleteRequest.of(req-> req.index(index).id(String.valueOf(id)));
-        DeleteResponse response = elasticsearchClient.delete(request);
+        DeleteResponse response = client.delete(request);
         return response.result();
     }
 
@@ -95,7 +95,7 @@ public class JavaClientProductConnector {
             throws IOException
     {
         SearchResponse<Product> productSearchResponse =
-                elasticsearchClient.search(req-> req.index(index), Product.class);
+                client.search(req-> req.index(index), Product.class);
         return productSearchResponse.hits().hits().stream().map(Hit::source).collect(Collectors.toList());
     }
 
